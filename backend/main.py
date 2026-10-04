@@ -1,6 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from urllib.parse import urlparse
+
+from backend.scanner.scanner import scan_url
+
 
 app = FastAPI(
     title="WebSecAI",
@@ -30,18 +33,25 @@ def health():
 
 
 @app.post("/scan")
-def scan(request: ScanRequest):
+async def scan(request: ScanRequest):
+
     parsed_url = urlparse(request.url)
 
     if parsed_url.scheme not in ["http", "https"]:
-        return {
-            "status": "error",
-            "message": "Please provide a valid HTTP or HTTPS URL."
-        }
+        raise HTTPException(
+            status_code=400,
+            detail="Please provide a valid HTTP or HTTPS URL."
+        )
+
+    if not parsed_url.netloc:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid URL."
+        )
+
+    result = await scan_url(request.url)
 
     return {
         "status": "success",
-        "target": request.url,
-        "message": "Target accepted for authorized security analysis.",
-        "findings": []
+        "data": result
     }
