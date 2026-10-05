@@ -2,6 +2,7 @@ import httpx
 
 from .security_headers import analyze_security_headers
 from .cookies import analyze_cookies
+from .cors import analyze_cors
 
 
 async def scan_url(url: str):
@@ -28,6 +29,11 @@ async def scan_url(url: str):
         # Analyze cookie security
         findings.extend(
             analyze_cookies(response.headers)
+        )
+
+        # Analyze CORS configuration
+        findings.extend(
+            analyze_cors(response.headers)
         )
 
         return {
