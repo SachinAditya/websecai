@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>WebSecAI - AI-Powered Web Security Assistant</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="brand">
+                <span class="brand-icon">🛡️</span>
+
+                <div>
+                    <h1>WebSecAI</h1>
+                    <p>AI-Powered Web Security Assistant</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <section class="hero">
+            <h2>Analyze Your Web Security</h2>
+
+            <p>
+                Run non-destructive security checks and use
+                Gemma AI to understand the findings.
+            </p>
+
+            <div class="scan-box">
+
+                <label for="targetUrl">
+                    Authorized Target URL
+                </label>
+
+                <div class="url-row">
+
+                    <input
+                        type="url"
+                        id="targetUrl"
+                        placeholder="https://example.com"
+                        autocomplete="off"
+                    >
+
+                    <button id="scanButton">
+                        Scan Website
+                    </button>
+
+                </div>
+
+                <p class="notice">
+                    ⚠️ Only scan websites you own or have
+                    explicit permission to test.
+                </p>
+
+            </div>
+        </section>
+
+
+        <section id="loading" class="loading hidden">
+            <div class="spinner"></div>
+
+            <p>
+                Analyzing security configuration and
+                asking Gemma AI for insights...
+            </p>
+        </section>
+
+
+        <section id="results" class="results hidden">
+
+            <div class="section-title">
+                <h2>Security Findings</h2>
+
+                <span id="targetDisplay"></span>
+            </div>
+
+
+            <div id="findingsContainer"></div>
+
+
+            <div class="ai-card">
+
+                <div class="ai-header">
+                    <span class="ai-icon">🤖</span>
+
+                    <div>
+                        <h2>Gemma AI Analysis</h2>
+
+                        <p>
+                            AI-generated explanation based
+                            on scanner evidence
+                        </p>
+                    </div>
+                </div>
+
+                <div id="aiAnalysis" class="ai-analysis">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section id="errorBox" class="error-box hidden">
+        </section>
+
+    </main>
+
+
+    <footer>
+        <div class="container">
+            <p>
+                WebSecAI · Built for Hacktoberfest Hack Day 2026
+            </p>
+
+            <p>
+                Authorized defensive security analysis only.
+            </p>
+        </div>
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>

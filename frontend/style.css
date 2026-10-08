@@ -1,0 +1,313 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+    line-height: 1.6;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+/* Header */
+
+.header {
+    background: #101827;
+    color: white;
+    padding: 22px 0;
+    border-bottom: 3px solid #2563eb;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-icon {
+    font-size: 38px;
+}
+
+.brand h1 {
+    font-size: 28px;
+}
+
+.brand p {
+    color: #b8c2d6;
+    font-size: 14px;
+}
+
+/* Hero */
+
+.hero {
+    padding: 55px 0 35px;
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.hero > p {
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+/* Scan box */
+
+.scan-box {
+    background: white;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+    text-align: left;
+}
+
+.scan-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.url-row {
+    display: flex;
+    gap: 12px;
+}
+
+.url-row input {
+    flex: 1;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.url-row input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.url-row button {
+    padding: 14px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.url-row button:hover {
+    background: #1d4ed8;
+}
+
+.url-row button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.notice {
+    margin-top: 14px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+/* Loading */
+
+.loading {
+    text-align: center;
+    padding: 35px;
+}
+
+.spinner {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 15px;
+    border: 4px solid #dbeafe;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Results */
+
+.results {
+    padding-bottom: 50px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title h2 {
+    font-size: 26px;
+}
+
+#targetDisplay {
+    color: #64748b;
+    font-size: 14px;
+    word-break: break-all;
+}
+
+/* Finding cards */
+
+.finding-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+    border-left: 5px solid #94a3b8;
+}
+
+.finding-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+}
+
+.finding-header h3 {
+    font-size: 18px;
+}
+
+.severity {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.severity-medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.severity-low {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.finding-card p {
+    margin-top: 8px;
+    color: #475569;
+}
+
+.recommendation {
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+/* AI card */
+
+.ai-card {
+    background: #101827;
+    color: white;
+    border-radius: 14px;
+    padding: 28px;
+    margin-top: 30px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.15);
+}
+
+.ai-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.ai-icon {
+    font-size: 34px;
+}
+
+.ai-header h2 {
+    font-size: 22px;
+}
+
+.ai-header p {
+    color: #aeb9cb;
+    font-size: 13px;
+}
+
+.ai-analysis {
+    white-space: pre-wrap;
+    color: #e2e8f0;
+    line-height: 1.7;
+}
+
+/* Error */
+
+.error-box {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+/* Utility */
+
+.hidden {
+    display: none;
+}
+
+/* Footer */
+
+footer {
+    background: #101827;
+    color: #94a3b8;
+    text-align: center;
+    padding: 25px 0;
+    font-size: 13px;
+}
+
+footer p + p {
+    margin-top: 5px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .hero h2 {
+        font-size: 30px;
+    }
+
+    .url-row {
+        flex-direction: column;
+    }
+
+    .url-row button {
+        width: 100%;
+    }
+
+    .section-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .finding-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
