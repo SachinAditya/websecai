@@ -1,5 +1,6 @@
 const scanButton = document.getElementById("scanButton");
 const targetUrl = document.getElementById("targetUrl");
+const API_URL = "https://websecai-exby.onrender.com";
 
 const loading = document.getElementById("loading");
 const results = document.getElementById("results");
