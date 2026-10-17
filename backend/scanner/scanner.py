@@ -1,7 +1,7 @@
 import httpx
 
 from .security_headers import analyze_security_headers
-from .cookies import analyze_cookies
+from backend.cookies import analyze_cookies
 from .cors import analyze_cors
 
 
