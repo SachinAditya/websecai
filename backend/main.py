@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from urllib.parse import urlparse
 
 from backend.scanner.scanner import scan_url
-from backend.ai.gemma import ask_gemma
+from backend.gemma import ask_gemma
 
 
 app = FastAPI(
