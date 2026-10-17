@@ -44,20 +44,20 @@ async function scanWebsite() {
 
     try {
 
-        const response = await fetch(
-            "http://127.0.0.1:8000/scan",
-            {
-                method: "POST",
+const response = await fetch(
+    `${API_URL}/scan`,
+    {
+        method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-                body: JSON.stringify({
-                    url: url
-                })
-            }
-        );
+        body: JSON.stringify({
+            url: url
+        })
+    }
+);
 
         const result = await response.json();
 
