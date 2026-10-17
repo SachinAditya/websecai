@@ -1,76 +1,58 @@
-import os
+
 import httpx
 
-HF_API_URL = "https://router.huggingface.co/v1/chat/completions"
-MODEL_NAME = "Qwen/Qwen3-1.7B"
+OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
+MODEL_NAME = "qwen3:1.7b"
 
 
 async def ask_gemma(prompt: str) -> str:
-    """Generate an AI response using Hugging Face Inference Providers."""
-
-    token = os.getenv("HF_TOKEN")
-
-    if not token:
-        return "AI analysis unavailable: HF_TOKEN is not configured."
-
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json",
-    }
+    """Generate an AI response using local Ollama."""
 
     payload = {
         "model": MODEL_NAME,
-        "messages": [
-            {"role": "user", "content": prompt}
-        ],
-        "max_tokens": 300,
-        "temperature": 0.2,
+        "prompt": (
+            "You are WebSecAI, a defensive web security assistant. "
+            "Analyze only the supplied scanner evidence. "
+            "Do not invent vulnerabilities. "
+            "Explain the issue, impact, and recommended fix.\n\n"
+            f"{prompt}"
+        ),
         "stream": False,
+        "think": False,
+        "options": {
+            "temperature": 0.2,
+            "num_predict": 300,
+        },
     }
 
     try:
-        async with httpx.AsyncClient(timeout=60.0) as client:
+        async with httpx.AsyncClient(timeout=120.0) as client:
             response = await client.post(
-                HF_API_URL,
-                headers=headers,
+                OLLAMA_URL,
                 json=payload,
             )
-
             response.raise_for_status()
-            result = response.json()
+            data = response.json()
 
-        content = result["choices"][0]["message"]["content"]
+        answer = data.get("response", "").strip()
 
-        if not isinstance(content, str) or not content.strip():
+        if not answer:
             return "AI analysis returned an empty response."
 
-        return content.strip()
+        return answer
 
-    except httpx.HTTPStatusError as exc:
-        status = exc.response.status_code
-
-        # Keep the diagnostic useful without logging credentials.
-        print(
-            f"Hugging Face HTTP {status}: "
-            f"{exc.response.text[:1000]}"
-        )
-
-        if status in (401, 403):
-            return "AI error: Check HF_TOKEN and its permissions."
-
-        if status == 429:
-            return "AI error: Inference quota or rate limit reached."
-
+    except httpx.ConnectError:
         return (
-            f"AI error: Hugging Face returned HTTP {status}. "
-            "Check Render logs for details."
+            "AI error: Cannot connect to Ollama. "
+            "Make sure Ollama is running on this computer."
         )
 
     except httpx.TimeoutException:
-        return "AI error: The hosted AI request timed out."
+        return "AI error: Ollama took too long to respond."
 
-    except httpx.RequestError:
-        return "AI error: Could not connect to the hosted AI service."
+    except httpx.HTTPStatusError as exc:
+        return f"AI error: Ollama returned HTTP {exc.response.status_code}."
 
-    except (ValueError, KeyError, IndexError, TypeError):
-        return "AI error: The hosted AI returned an unexpected response."
+    except (httpx.RequestError, ValueError, TypeError):
+        return "AI error: Could not complete the local AI request."
+
