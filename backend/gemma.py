@@ -52,14 +52,26 @@ async def ask_gemma(prompt: str) -> str:
 
         return content.strip()
 
+
     except httpx.HTTPStatusError as exc:
         status = exc.response.status_code
 
+        print(
+            f"Hugging Face HTTP {status}: "
+            f"{exc.response.text[:1500]}"
+        )
+
         if status in (401, 403):
-            return (
-                "AI error: Check HF_TOKEN and its "
-                "Inference Providers permissions."
-            )
+            return "AI error: Check HF_TOKEN and its permissions."
+
+        if status == 429:
+            return "AI error: Inference quota or rate limit reached."
+
+        return (
+            f"AI error: Hugging Face returned HTTP {status}. "
+            "Check Render logs for details."
+        )
+
 
         if status == 429:
             return (
