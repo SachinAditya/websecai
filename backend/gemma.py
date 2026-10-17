@@ -2,14 +2,11 @@ import os
 import httpx
 
 HF_API_URL = "https://router.huggingface.co/v1/chat/completions"
-MODEL_NAME = "google/gemma-2-2b-it"
+MODEL_NAME = "Qwen/Qwen3-1.7B"
 
 
 async def ask_gemma(prompt: str) -> str:
-    """
-    Send a prompt to Hugging Face Inference Providers
-    and return the generated AI response.
-    """
+    """Generate an AI response using Hugging Face Inference Providers."""
 
     token = os.getenv("HF_TOKEN")
 
@@ -24,12 +21,9 @@ async def ask_gemma(prompt: str) -> str:
     payload = {
         "model": MODEL_NAME,
         "messages": [
-            {
-                "role": "user",
-                "content": prompt,
-            }
+            {"role": "user", "content": prompt}
         ],
-        "max_tokens": 250,
+        "max_tokens": 300,
         "temperature": 0.2,
         "stream": False,
     }
@@ -52,13 +46,13 @@ async def ask_gemma(prompt: str) -> str:
 
         return content.strip()
 
-
     except httpx.HTTPStatusError as exc:
         status = exc.response.status_code
 
+        # Keep the diagnostic useful without logging credentials.
         print(
             f"Hugging Face HTTP {status}: "
-            f"{exc.response.text[:1500]}"
+            f"{exc.response.text[:1000]}"
         )
 
         if status in (401, 403):
@@ -71,20 +65,6 @@ async def ask_gemma(prompt: str) -> str:
             f"AI error: Hugging Face returned HTTP {status}. "
             "Check Render logs for details."
         )
-
-
-        if status == 429:
-            return (
-                "AI error: Inference quota or rate limit reached."
-            )
-
-        if status in (400, 404):
-            return (
-                f"AI error: Hugging Face returned HTTP {status}. "
-                "Check model availability and request parameters."
-            )
-
-        return f"AI error: Hugging Face returned HTTP {status}."
 
     except httpx.TimeoutException:
         return "AI error: The hosted AI request timed out."
